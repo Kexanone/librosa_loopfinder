@@ -13,7 +13,7 @@ import soundfile as sf
 import  librosa
 from librosa_loopfinder import find_loop_points
 
-data, sr = librosa.load('src-tracks/bgm_slugger_ingame/524286978.flac', sr=None)
+data, sr = librosa.load('input.wav', sr=None)
 # Get loop points based on a feature window of 8 seconds and a minimum loop duration of 60 seconds
 loop_begin, loop_end, score = find_loop_points(y=data, sr=sr,
     win_length=librosa.time_to_samples(8),
