@@ -19,7 +19,7 @@ class BeatFeaturesGenerator:
         self.n_chroma = n_chroma
         self.n_mels = n_mels
 
-    def __call__(self, y=None, sr=None, win_length=1):
+    def __call__(self, y=None, sr=None, win_length=None):
         _, beats = librosa.beat.beat_track(y=y, sr=sr, units='samples')
         frame_features = Pipeline([
             ('MinMax1', MinMaxScaler()),
@@ -79,7 +79,7 @@ def get_frame_features(y=None, sr=None, n_chroma=12, n_mels=128):
     ]).T
 
 
-def frame_to_beat_features(frame_features=None, beats=None, sr=None, win_length=1):
+def frame_to_beat_features(frame_features=None, beats=None, sr=None, win_length=None):
     '''
     Converts frame features to beat features
     Features are collected from frames after the beat too based on the given win_length
