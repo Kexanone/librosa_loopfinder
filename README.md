@@ -8,6 +8,7 @@ python3 -m pip install git+https://github.com/Kexanone/librosa_loopfinder.git
 
 ## Usage Example
 ```py
+import numpy as np
 import  librosa
 from librosa_loopfinder import find_loop_points
 
