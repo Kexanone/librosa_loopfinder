@@ -22,7 +22,7 @@ loop_begin, loop_end, score = find_loop_points(y=data, sr=sr,
 intro = data[:loop_begin]
 loop = data[loop_begin:loop_end]
 outro = data[loop_end:]
-# Loop music two times
+# Run the music loop three times
 new_data = np.hstack([intro] + 3*[loop] + [outro])
 sf.write('output.wav', new_data, sr)
 ```
