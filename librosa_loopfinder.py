@@ -15,17 +15,18 @@ class BeatFeaturesGenerator:
     Generates features for beats
     '''
     def __init__(self, n_pc=12, n_chroma=12, n_mels=128):
-        self.n_pc = n_pc
+        self.preprocessing = Pipeline([
+            ('MinMax1', MinMaxScaler()),
+            ('PCA', PCA(n_components=n_pc)),
+            ('MinMax2', MinMaxScaler())
+        ])
         self.n_chroma = n_chroma
         self.n_mels = n_mels
 
     def __call__(self, y=None, sr=None, win_length=None):
         _, beats = librosa.beat.beat_track(y=y, sr=sr, units='samples')
-        frame_features = Pipeline([
-            ('MinMax1', MinMaxScaler()),
-            ('PCA', PCA(n_components=self.n_pc)),
-            ('MinMax2', MinMaxScaler())
-        ]).fit_transform(get_frame_features(y=y, sr=sr, n_chroma=self.n_chroma, n_mels=self.n_mels))
+        frame_features = get_frame_features(y=y, sr=sr, n_chroma=self.n_chroma, n_mels=self.n_mels)
+        frame_features = self.preprocessing.fit_transform(frame_features)
         return frame_to_beat_features(frame_features=frame_features, beats=beats, sr=sr, win_length=win_length)
 
 
